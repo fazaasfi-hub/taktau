@@ -1,0 +1,116 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Amplop Cinta Ganda</title>
+  <style>
+    body {
+      background: #ffe6f0;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }.envelope {
+      width: 300px;
+      height: 180px;
+      background: #ff5c7a;
+      border-radius: 15px 15px 0 0;
+      margin: 40px auto 180px auto;
+      cursor: pointer;
+      position: relative;
+      perspective: 700px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+      z-index: 1;
+    }.flap {
+      position: absolute;
+      top: -120px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 150px 120px 150px;
+      border-color: transparent transparent #ff8aa1 transparent;
+      transform-origin: top center;
+      transition: transform 1s ease;
+      z-index: 2;
+    }.envelope.open.flap {
+      transform: rotateX(180deg);
+    }.text {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      color: white;
+      font-weight: bold;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 3;
+    }.envelope.open.text {
+      opacity: 0;
+    }.message {
+      display: none;
+      font-size: 22px;
+      color: #d62056;
+      margin-top: 80px;
+      font-weight: bold;
+      animation: heartBeat 1s infinite alternate;
+      position: relative;
+      z-index: 10;
+      background: #fff0f5;
+      padding: 10px;
+      border-radius: 8px;
+    }.envelope.open +.message {
+      display: block;
+    }
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="envelope" id="envelope1">
+    <div class="flap"></div>
+    <div class="text">Klik aku</div>
+  </div>
+  <div class="message" id="msg1">akuuuu sayaaaang bangett sama sekarr 💖</div>
+
+  <div class="envelope" id="envelope2">
+    <div class="flap"></div>
+    <div class="text">Klik aku juga</div>
+  </div>
+  <div class="message" id="msg2">jangann tinggalin akuuuu yaaa sayaang 💕</div>
+
+  <audio id="loveSong" src="https://www.bensound.com/bensound-music/bensound-love.mp3"></audio>
+
+  <script>
+    const envelopes = [
+      { env: document.getElementById('envelope1'), msg: document.getElementById('msg1') },
+      { env: document.getElementById('envelope2'), msg: document.getElementById('msg2') },
+    ];
+    const audio = document.getElementById('loveSong');
+
+    envelopes.forEach(({env, msg}) => {
+      env.addEventListener('click', () => {
+        env.classList.toggle('open');
+        if (env.classList.contains('open')) {
+          msg.style.display = 'block';
+          if (!audio.paused) return;
+          audio.play();
+        } else {
+          msg.style.display = 'none';
+          if (!envelopes.some(e => e.env.classList.contains('open'))) {
+            audio.pause();
+            audio.currentTime = 0;
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
+```
